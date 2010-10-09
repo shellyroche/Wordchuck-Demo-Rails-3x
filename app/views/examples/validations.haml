@@ -1,0 +1,43 @@
+=render :partial => "shared/buckets_link", :locals => { :title => "Activerecord Validations" }
+
+%p I18n supports ActiveRecord validation error types directly, so all we have to do is put the translations in the right place, within an :activerecord :errors section.
+
+%p.tight There are 21 ActiveRecord validation errors that can be defined and translated for each data item, as needed. We no longer define a custom message with the validation itself, but locate them all within the locale files.
+
+%pre
+  :plain
+    class Item < ActiveRecord::Base
+      validates_presence_of :cost
+      validates_numericality_of :cost,
+        :greater_than_or_equal_to => 1.00,
+        :less_than_or_equal_to => 1000000000000.00
+    end
+
+%pre
+  :plain
+    :'en' => {
+      :activerecord => {
+        :errors => {
+          :models => {
+            :item => {
+              :attributes => {
+                :cost => {
+                  :blank => "Every item has a cost.",
+                  :not_a_number => "Decimal number, please.",
+                  :greater_than_or_equal_to => ">= $1.00.",
+                  :less_than_or_equal_to => "<= $1T."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+%p.tight Each validation error type has its own content key that, if the validation fails, is requested from I18n and added to the object instance's errors object:
+
+%pre
+  :plain
+    { :cost => ["Decimal number, please."] }
+
+%p.tight And data items then have error conditions with fully customized and translated versions of error messages ready to be presented to the user.

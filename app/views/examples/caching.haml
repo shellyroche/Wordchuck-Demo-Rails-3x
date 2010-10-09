@@ -1,0 +1,40 @@
+=render :partial => "shared/buckets_link", :locals => { :title => "Fragment Caching" }
+
+%p.tight Locales complicate fragment caching somewhat. Our demonstration application places the locale in the URL, which is used within URL component of the cache key automatically, so there is nothing to worry about. Users with the same set locale get that locale's cached version of the static content.
+
+%pre
+  Exist fragment? views/rails.wordchuck.com/en (0.1ms)
+  Read fragment views/rails.wordchuck.com/en (0.1ms)
+
+%p.tight If a different locale is set Rails uses a different cache key:
+
+%pre
+  Exist fragment? views/rails.wordchuck.com/fr (0.1ms)
+  Read fragment views/rails.wordchuck.com/fr (0.1ms)
+
+%p.tight And, of course, if you want to use a custom :action_suffix or :key for multiple cached fragments with the same action, or to share them across actions, the cache() call is the same:
+
+%pre
+  <&#37; cache(:key => "outline") do %>
+  <&#37; end %>
+  &nbsp;
+  Exist fragment? views/rails.wordchuck.com/en?key=outline (0.2ms)
+  Read fragment views/rails.wordchuck.com/en?key=outline (2.3ms)
+
+%p The locale is still automatically added to the cache key as part of the request URL.
+
+%p.tight However, if you choose <i>not</i> to put the locale in the URL automatically like we do here, and instead store it within the session[], or as part of the user's database profile, you will need to add the locale to a fragment cache key:
+
+%pre
+  <&#37; cache(:key => "outline_&#35;{I18n.locale}") do %>
+  <&#37; end %>
+  &nbsp;
+  Exist fragment? views/rails.wordchuck.com/?key=outline_en (0.1ms)
+  Read fragment views/rails.wordchuck.com/?key=outline_en (0.1ms)
+  &nbsp;
+  Exist fragment? views/rails.wordchuck.com/?key=outline_fr (0.1ms)
+  Read fragment views/rails.wordchuck.com/?key=outline_fr (0.1ms)
+
+%p Otherwise, cached versions based on the locale selected when they were generated will be displayed, regardless of the locale set for the request.
+
+%p== If there is a better way to solve this issue, please #{mail_to "shelly@wordchuck.com", "let me know"}. This is only what we have come up with. 

@@ -1,0 +1,5 @@
+-cache(:key => "shared_buckets_#{I18n.locale}") do
+  %h1= t(:section, :scope => [:titles, :buckets])
+  %div#buckets= render :partial => "shared/list_buckets"
+  %div#details
+  %div#edit

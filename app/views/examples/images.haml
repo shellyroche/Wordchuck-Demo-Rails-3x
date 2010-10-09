@@ -1,0 +1,27 @@
+=render :partial => "shared/buckets_link", :locals => { :title => "Images" }
+
+%p Ideally, any images we use on a website would not have text in them. That text has to be translated anyway, but multiple images have to be coordinated, and changes to image text adds an extra layer of headache. Wherever possible, definitely avoid this.
+
+%p But in some cases images with text just look better and can't be avoided. Also, images should have the ALT tags defined that then need to be translated and added to the image_tag method.
+
+%p To get the correct image for the set locale you embed the locale within the pathname to the image, either as a directory or part of the image filename. Just be consistent, of course.
+
+%p.tight This demonstration application uses a separate directory:
+
+%pre
+  :plain
+    image_tag "\#{I18n.locale}/wcdemo3.png",
+                :size => "187x100",
+                :alt => t(:wcdemo, :scope => [:images, :alts])
+    
+%p.tight But the locale within the filename would work just as well:
+
+%pre
+  :plain
+    image_tag "wcdemo3.\#{I18n.locale}.png",
+                :size => "187x100",
+                :alt => t(:wcdemo, :scope => [:images, :alts])
+
+%p Whatever you prefer.
+
+%p The IMG ALT tags are just textual content like any other, manually added to the ALT of the image_tag helper method.

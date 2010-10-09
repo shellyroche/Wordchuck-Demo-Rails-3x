@@ -1,0 +1,46 @@
+=render :partial => "shared/buckets_link", :locals => { :title => "Static Object Labels" }
+
+%p In many cases our Rails applications have labels that are attached to static objects. Examples of this would be countries, timezones, transaction_types, user_roles, permissions_sets and so on.
+
+%p Very often these items are displayed to users to choose from, or indicate what is going on with the application they are using.
+
+%p.tight In this demonstration application we have hard set the bucket names themselves with a string value as their "name", but then requesting the translation from the locale files using that string value as the content key. This is setup as follows:
+
+%pre
+  :plain
+    create_table :buckets do |t|
+      t.string :name, :length => 48, :null => false
+      t.timestamps
+    end
+
+%p.tight And then with seed fixtures:
+
+%pre
+  :plain
+    Bucket.create_or_update(:id => 1, :name => "red")
+    Bucket.create_or_update(:id => 2, :name => "blue")
+
+%p.tight When you need to display these objects you request their display values from I18n directly, after setting up their translations, just as you would any other content:
+
+%pre
+  :plain
+    :buckets => {
+      :names => {
+        :red => "Red Bucket",
+        :blue => "Blue Bucket"
+      }
+    }
+
+%pre
+  :plain
+    t(bucket.name.to_sym, :scope => [:buckets, :names])
+
+%p.tight As another example, this demonstration application collects the display values for the locale selection list like this:
+
+%pre
+  :plain
+    @locales.collect do |locale|
+      [t(locale[0].to_sym, :scope => [:languages]), locale[1]]
+    end
+
+%p And again, as with all things Rails, it just works.

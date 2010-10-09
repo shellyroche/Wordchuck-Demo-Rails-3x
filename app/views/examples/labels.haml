@@ -1,0 +1,41 @@
+=render :partial => "shared/buckets_link", :locals => { :title => "Activerecord Labels" }
+
+%p I18n supports ActiveRecord directly so all we have to do is put the translations in the right place, within an :activerecord section.
+
+%p.tight For ActiveRecord model names there is a "models" section with the name of each of your models as the content key. The translated version can then be retrieved from the model directly via applicable Class methods:
+
+%pre
+  :plain
+    :'en' => {
+      :activerecord => {
+        :models => {
+          :item => "Basket Item"
+        }
+      }
+    }
+    Item.human_name        ## Rails 2.x
+    Item.model_name.human  ## Rails 3.x
+
+%p.tight Labels for model data items work the same way, but within an expected "attributes" section, further separated by the model name:
+
+%pre
+  :plain
+    :'en' => {
+      :activerecord => {
+        :attributes => {
+          :item => {
+            :name => "Item Name",
+            :cost => "Item Cost"
+          }
+        }
+      }
+    }
+
+%p.tight Translated versions for data item labels, used primarily in forms, are then also available from the model directly:
+
+%pre
+  :plain
+    Item.human_attribute_name(:name)
+    Item.human_attribute_name(:cost)
+
+%p And again, as with all things Rails, it just works.

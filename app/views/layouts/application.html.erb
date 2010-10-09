@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= I18n.locale -%>" lang="<%= I18n.locale -%>">
+<head>
+  <title><%= t(:homepage, :scope => [:titles]) %></title>
+  <meta name="description" content="#{t(:slogan, :scope => :welcome)}">
+  <meta name="keywords" content="Ruby on Rails, Rails 3, professional translation, translator, i18n, content management system, locale, localization, internationalization, ruby gem, multi-language support, Shelly Roche">
+  
+  <link rel = "icon" type = "image/png" href = "/favicon.png">
+  
+  <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag 'libs/jquery-1.4.2.min', 'libs/jquery-rails', 'application/application' %>
+  <%= csrf_meta_tag %>
+</head>
+<body dir="<%= dir_from_locale -%>">
+  <div class="title"><%= t(:homepage, :scope => [:titles]) %></div>
+  <table class="container">
+    <tr>
+      <td style="width: 50%; padding: 20px"><%= yield %></td>
+      <td style="width: 50%; padding: 20px"><div id="demonstration"><%= render :partial => "shared/buckets" %></div></td></tr>
+    <tr>
+      <td colspan="2" style="padding: 0px" dir="ltr">
+
+          <table class="footer">
+            <tr>
+              <td class="side"><div class="links"><%= render :partial => 'shared/link', :collection => @locales, :as => :locale %></div></td>
+              <td class="middle"><div class="github"><%= t(:github, :scope => [:footer]).html_safe %></div></td>
+              <td class="side"><div class="footer"><%= link_to "wordchuck.com", "http://www.wordchuck.com", :target => "_blank" %></div></td>
+            </tr>
+          </table>
+
+      </td></tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,11 @@
+%table.details
+  %tr
+    %th.glarge{ :class => dir_alignment_class }= t(:details, :scope => [:titles, :buckets], :name => @item.name)
+    %th.center.gsmall= link_to t(:edit, :scope => [:buttons]), edit_item_path, :remote => true
+  %tr
+    %td.items{ :colspan => "2" }
+      %div.name= t(:description, :scope => [:items], :name => Item.model_name.human)
+      %div== #{Item.human_attribute_name(:name)}: #{@item.name}
+      %div== #{Item.human_attribute_name(:cost)}: #{number_to_currency(@item.cost, :precision => 2)}
+      %div== #{Item.human_attribute_name(:created_at)}: #{l @item.created_at, :format => :details} [#{l @item.created_at.to_date, :format => :default}]
+      %div== #{Item.human_attribute_name(:updated_at)}: #{l @item.updated_at, :format => :details} [#{l @item.updated_at.to_date, :format => :default}]

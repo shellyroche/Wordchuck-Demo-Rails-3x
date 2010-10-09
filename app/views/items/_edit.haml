@@ -1,0 +1,11 @@
+%table.details
+  %tr
+    %td.center
+      %div#above= t(:intro, :scope => [:edit], :item => @item.name)
+  %tr
+    %td.center
+      =form_for @item, item_path, :remote => true do |f|
+        =f.text_field :cost, { :maxlength => 24, :style => "width: 350px" }
+        =submit_tag t(:submit, :scope => [:buttons])
+  %tr
+    %td{ :class => dir_alignment_class }= t(:explanation, :scope => [:edit])

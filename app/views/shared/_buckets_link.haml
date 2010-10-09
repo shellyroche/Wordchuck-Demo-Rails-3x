@@ -1,0 +1,7 @@
+-cache(:key => "shared_buckets_link_#{I18n.locale}") do
+  %table.tight{ :style => "width: 100%" }
+    %tr
+      %td{ :style => "width: 65%; border: none" }
+        %h1= title
+      %td{ :style => "width: 35%; vertical-align: middle; border: none" }
+        %div{ :style => "float:right; font-weight: bold" }= link_to "Buckets and Items", buckets_path, :remote => true

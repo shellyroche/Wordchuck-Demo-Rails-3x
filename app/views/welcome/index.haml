@@ -1,0 +1,26 @@
+-cache(:key => "outline_#{I18n.locale}") do
+  %h1= t(:outline, :scope => [:titles])
+  %p.tight= t(:introduction, :scope => [:homepage]).html_safe
+
+  %ul
+    %li= link_to t(:select, :scope => [:homepage, :list]), examples_selection_path, :remote => true
+    %li= link_to t(:names,  :scope => [:homepage, :list]), examples_static_path, :remote => true
+    %li= link_to t(:images, :scope => [:homepage, :list]), examples_images_path, :remote => true
+    %li= link_to t(:caching, :scope => [:homepage, :list]), examples_caching_path, :remote => true
+    %li= t(:dates, :scope => [:homepage, :list])
+    %li= t(:right, :scope => [:homepage, :list])
+    %li= link_to t(:labels, :scope => [:homepage, :list]), examples_labels_path, :remote => true
+    %li= link_to t(:errors, :scope => [:homepage, :list]), examples_validations_path, :remote => true
+
+  %p= t(:selection, :scope => [:homepage]).html_safe
+  %p= t(:word, :scope => [:homepage]).html_safe
+  %p{ :style => "padding-bottom: 20px" }= t(:gem, :scope => [:homepage]).html_safe
+
+-cache(:key => "selection_#{I18n.locale}") do
+  %div.selection
+    =form_tag locale_selection_path, :remote => true, :id => "locale_select" do
+      =select("locale", "id", locales_options_for_select, { :selected => I18n.locale }, { :onchange => "submit_locale_selection()" })
+
+-cache(:key => "demoimage_#{I18n.locale}") do
+  %div.image
+    =image_tag "#{I18n.locale}/wcdemo3.png", :size => "187x100", :alt => t(:wcdemo, :scope => [:images, :alts])

@@ -1,0 +1,3 @@
+%tr
+  %td.glarge= t(bucket.name.to_sym, :scope => [:buckets, :names])
+  %td.gsmall.center= link_to t(:items, :scope => [:buttons]), items_path(:bucket_id => bucket.id), :remote => true

@@ -1,0 +1,13 @@
+-cache(:key => "shared_items_#{I18n.locale}") do
+  %table.list
+    %tr
+      %th.glarge{ :class => dir_alignment_class }= t(:items, :scope => [:titles, :buckets], :name => t(@bucket.name.to_sym, :scope => [:buckets, :names]))
+      %th.gsmall.center= link_to t(:buckets, :scope => [:buttons]), buckets_path, :remote => true
+
+    -if @bucket.has_items?
+      =render :partial => "shared/row_item", :collection => @bucket.items, :as => :item
+      %tr
+        %td{ :colspan => "2" }= t(:items, :scope => [:buckets], :count => @bucket.items.length)
+    -else
+      %tr
+        %td{ :colspan => "2" }= t(:empty, :scope => [:buckets])

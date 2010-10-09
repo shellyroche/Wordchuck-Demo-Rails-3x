@@ -1,0 +1,32 @@
+=render :partial => "shared/buckets_link", :locals => { :title => "Locale Selection" }
+
+%p In this demonstration the user makes a language selection from either the selection input field, or text links in the bottom left. Both are Ajax requests here, but they certainly do not have to be.
+%p.tight Locale selection requests simply change the locale from the default. But the default locale is actually updated on <i>every request</i> within a before_filter set in the ApplicationController. Nothing special really happens when the desired locale is changed by the user.
+
+%pre
+  :plain
+    before_filter :set_locale
+
+    def set_locale
+      I18n.locale = params[:locale] if params.include?('locale')
+    end
+
+%p.tight The magic happens by setting the locale on every route automatically, based on what the locale is for the current request. The selected locale then gets passed back automatically.
+
+%pre
+  :plain
+    def default_url_options(options = {})
+      options.merge!({ :locale => I18n.locale })
+    end
+
+%p.tight We need to wrap every applicable route within a :locale scope to ensure that the locale is included within any named routes. Your application will need to use named routes, which it should probably be doing anyway.
+
+%pre
+  :plain
+    scope ':locale' do
+      resources :buckets, :only => [ :index ]
+      resources :items, :only => [ :index, :show, :edit, :update ]
+    end
+
+%p And so we do not have to specify the locale manually when we call a named route method. It all just works.
+%p Of course, you do not have to store the locale in the URL if you do want to. It can also be stored in browser's session[], or as a data item within the user's database profile. But placing the desired locale in the URL ensures that bookmarks or shared links always point to the content as the user was looking at it.
